@@ -25,18 +25,54 @@ import { gql } from '@apollo/client/core/core.cjs.js'
 	
 	const query = gql`
       query {
-		blog_post(lang: "en-au", uid: "fist-blog") {
+		blog_post(lang: "en-au", uid: "${slug}") {
 			blog_title
 		}
       }
     `
-    const { data } = await client.query({
-      query,
-    })
 
-    return {
-      status: 200,
-      body: data,
-    }
+	try{
+		const { data } = await client.query({
+			query,
+		  })
+	  
+		  return {
+			status: 200,
+			body: data,
+		  }
+	}catch(e){
+		return new Error({message: "FUCK SHIT FUCK"})
+	}
+    
 
 }
+
+/*
+# {
+#   _allDocuments{
+#     edges{
+#       node{
+#         ... on Blog_post{
+#           blog_title
+#         }
+#         _meta{
+#           uid
+#         }
+#       }
+#     }
+#   }
+# }
+
+{
+	allBlog_posts{
+    edges{
+      node{
+        ... on Blog_post{
+          blog_title
+        }
+      }
+    }
+  }
+}
+
+*/
