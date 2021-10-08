@@ -1,32 +1,39 @@
 <script>
-    export let slug = "Glenn"
-    export let user_url = "tet"
-    export let dog //define dog here
-    
+import { page } from '$app/stores';
+
+    export let server_query //define dog here
+	console.log(server_query)
 </script>
 
 <script context="module">
-	/**
-	 * @type {import('@sveltejs/kit').Load}
-	 */
+
 	export async function load({ page, fetch, session, stuff }) {
-		const url = `https://dog.ceo/api/breeds/image/random`;
+		const url = `/blog/${page.params.slug}.json`;
 		const res = await fetch(url);
 
 		if (res.ok) {
+			const server_data = await res.json()
+			//must return props here that get passed through to static page
 			return {
 				props: {
-					dog: await res.json() //set dog here
+					server_query: server_data, //set dog here
 				}
 			};
 		}
 
 		return {
 			status: res.status,
-			error: new Error(`Could not load ${url}`)
+			error: new Error(`Could not load ${url}: ${res.message}`)
 		};
 	}
 </script>
 
-<h1>{user_url} | BLOG CONTENT: {slug}</h1>
-<img src="{dog.message}" alt="">
+<h1>{server_query.blog_post.blog_title[0].text}</h1>
+
+
+<style lang="scss">
+	img{
+		width: 300px;
+		height:auto;
+	}
+</style>
