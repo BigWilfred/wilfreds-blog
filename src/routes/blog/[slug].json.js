@@ -1,4 +1,5 @@
 import { client } from '$lib/client.js'
+import { getBlog } from '$lib/query.js'
 import { gql } from '@apollo/client/core/core.cjs.js'
 
 
@@ -23,13 +24,7 @@ import { gql } from '@apollo/client/core/core.cjs.js'
 	}
 	*/
 	
-	const query = gql`
-      query {
-		blog_post(lang: "en-au", uid: "${slug}") {
-			blog_title
-		}
-      }
-    `
+	const query = gql(getBlog(slug))
 
 	try{
 		const { data } = await client.query({
