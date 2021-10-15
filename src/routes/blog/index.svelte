@@ -1,3 +1,4 @@
+
 <script context="module">
 
 	export async function load({ page, fetch, session, stuff }) {
@@ -6,7 +7,7 @@
 
 		if (res.ok) {
 			const server_data = await res.json()
-            console.log(server_data)
+
 			//must return props here that get passed through to static page
 			return {
 				props: {
@@ -18,16 +19,20 @@
 		return {
 			status: res.status,
 			error: new Error(`Could not load ${url}: ${res.message}`)
-		};
+		}; 
 	}
 </script>
 
 <script>
-    export let blogs 
-    console.log(blogs)
+	import Blog from "../../components/BlogItem.svelte";
+
+    export let blogs
+	
+
 </script>
 
 <h1>Blog</h1>
+
 {#each blogs.edges as blog}
-    <h3>{blog.node.blog_title[0].text}</h3>
+	<Blog blog={blog.node} title={blog.node.blog_title[0].text}/>
 {/each}

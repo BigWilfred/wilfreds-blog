@@ -1,10 +1,3 @@
-<script>
-import { page } from '$app/stores';
-
-    export let server_query //define dog here
-	console.log(server_query)
-</script>
-
 <script context="module">
 
 	export async function load({ page, fetch, session, stuff }) {
@@ -20,7 +13,6 @@ import { page } from '$app/stores';
 				}
 			};
 		}
-
 		return {
 			status: res.status,
 			error: new Error(`Could not load ${url}: ${res.message}`)
@@ -28,7 +20,23 @@ import { page } from '$app/stores';
 	}
 </script>
 
-<h1>{server_query.blog_post.blog_title[0].text}</h1>
+<script>
+	import { page } from '$app/stores';
+	
+	export let server_query //define dog here
+	console.log(server_query)
+</script>
+
+<div>
+	<a href="/blog">
+		Back
+	</a>
+	<h1>{server_query.blog_post.blog_title[0].text}</h1>
+	<small>
+        <!-- Published: {server_query.blog_post._meta.firstPublicationDate} -->
+    </small>
+</div>
+
 
 
 <style lang="scss">
